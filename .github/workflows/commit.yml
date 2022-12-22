@@ -12,3 +12,6 @@ jobs:
       - name: Make
         run: |
           make all
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: build/lambda.zip
