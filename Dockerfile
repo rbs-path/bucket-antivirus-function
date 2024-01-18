@@ -13,16 +13,18 @@ COPY requirements.txt /opt/app/requirements.txt
 # Install packages
 RUN yum update -y && \
     amazon-linux-extras install epel -y && \
-    yum install -y cpio yum-utils tar.x86_64 gzip zip python3-pip shadow-utils.x86_64 && \
+    yum install -y cpio yum-utils tar gzip zip python3-pip shadow-utils && \
     pip3 install -r requirements.txt && \
     rm -rf /root/.cache/pip
 
 # Download libraries we need to run in lambda
 WORKDIR /tmp
-RUN yumdownloader -x \*i686 --archlist=x86_64 \
+RUN yumdownloader -x \*i686 --archlist=x86_64,aarch64 \
         clamav clamav-lib clamav-update json-c \
         pcre2 libtool-ltdl libxml2 bzip2-libs \
-        xz-libs libprelude gnutls nettle
+        xz-libs libprelude gnutls nettle libcurl \
+        libnghttp2 libidn2 libssh2 openldap \
+        libunistring cyrus-sasl-lib nss pcre
 
 RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
     rpm2cpio clamav-lib*.rpm | cpio -vimd && \
@@ -35,14 +37,22 @@ RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
     rpm2cpio xz-libs*.rpm | cpio -vimd && \
     rpm2cpio libprelude*.rpm | cpio -vimd && \
     rpm2cpio gnutls*.rpm | cpio -vimd && \
-    rpm2cpio nettle*.rpm | cpio -vimd
-
+    rpm2cpio nettle*.rpm | cpio -vimd && \
+    rpm2cpio libcurl*.rpm | cpio -vimd && \
+    rpm2cpio libnghttp2*.rpm | cpio -vimd && \
+    rpm2cpio libidn2*.rpm | cpio -vimd && \
+    rpm2cpio libssh2*.rpm | cpio -vimd && \
+    rpm2cpio openldap*.rpm | cpio -vimd && \
+    rpm2cpio libunistring*.rpm | cpio -vimd && \
+    rpm2cpio cyrus-sasl-lib-2*.rpm | cpio -vimd && \
+    rpm2cpio nss*.rpm | cpio -vimd && \
+    rpm2cpio pcre*.rpm | cpio -vimd
 
 # Copy over the binaries and libraries
-RUN cp /tmp/usr/bin/clamscan \
+RUN cp -rf /tmp/usr/bin/clamscan \
        /tmp/usr/bin/freshclam \
        /tmp/usr/lib64/* \
-       /usr/lib64/libpcre.so.1 \
+#       /usr/lib64/libpcre.so.1 \
        /opt/app/bin/
 
 # Fix the freshclam.conf settings
@@ -60,9 +70,9 @@ RUN ldconfig
 
 # Create the zip file
 WORKDIR /opt/app
-RUN zip -r9 --exclude="*test*" /opt/app/build/lambda.zip *.py bin
+RUN zip -r9 --exclude="*test*" /opt/app/build/anti-virus.zip *.py bin
 
 WORKDIR /usr/local/lib/python3.7/site-packages
-RUN zip -r9 /opt/app/build/lambda.zip *
+RUN zip -r9 /opt/app/build/anti-virus.zip *
 
 WORKDIR /opt/app

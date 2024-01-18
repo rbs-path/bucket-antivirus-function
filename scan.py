@@ -44,7 +44,6 @@ from common import get_timestamp
 
 
 def event_object(event, event_source="s3"):
-
     # SNS events are slightly different
     if event_source.upper() == "SNS":
         event = json.loads(event["Records"][0]["Sns"]["Message"])
@@ -181,7 +180,6 @@ def sns_scan_results(
     message = {
         "bucket": s3_object.bucket_name,
         "key": s3_object.key,
-        "version": s3_object.version_id,
         AV_SIGNATURE_METADATA: scan_signature,
         AV_STATUS_METADATA: scan_result,
         AV_TIMESTAMP_METADATA: get_timestamp(),
