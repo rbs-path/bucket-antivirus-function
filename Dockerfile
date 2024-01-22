@@ -24,7 +24,7 @@ RUN yumdownloader -x \*i686 --archlist=x86_64,aarch64 \
         pcre2 libtool-ltdl libxml2 bzip2-libs \
         xz-libs libprelude gnutls nettle libcurl \
         libnghttp2 libidn2 libssh2 openldap \
-        libunistring cyrus-sasl-lib nss nss-util pcre 
+        libunistring cyrus-sasl-lib nss nss-util pcre
 
 RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
     rpm2cpio clamav-lib*.rpm | cpio -vimd && \
