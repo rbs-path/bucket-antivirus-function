@@ -24,9 +24,9 @@ RUN yumdownloader -x \*i686 --archlist=x86_64,aarch64 \
         pcre2 libtool-ltdl libxml2 bzip2-libs \
         xz-libs gnutls nettle libcurl \
         libnghttp2 libidn2 libssh2 openldap \
-        libunistring cyrus-sasl-lib nss pcre openssl-libs
+        libunistring cyrus-sasl-lib nss pcre pcre2 openssl-libs
 
-RUN curl https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/x86_64/os/Packages/l/libprelude-5.2.0-23.fc40.x86_64.rpm \
+RUN curl https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/aarch64/os/Packages/l/libprelude-5.2.0-23.fc40.aarch64.rpm \
     --output libprelude.rpm
 
 RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
@@ -49,14 +49,14 @@ RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
     rpm2cpio libunistring*.rpm | cpio -vimd && \
     rpm2cpio cyrus-sasl-lib-2*.rpm | cpio -vimd && \
     rpm2cpio nss*.rpm | cpio -vimd && \
-    rpm2cpio pcre*.rpm | cpio -vimd && \
+    rpm2cpio pcre-*.rpm | cpio -vimd && \
+    rpm2cpio pcre2*.rpm | cpio -vimd && \
     rpm2cpio openssl-libs*.rpm | cpio -vimd
 
 # Copy over the binaries and libraries
 RUN cp -rf /tmp/usr/bin/clamscan \
        /tmp/usr/bin/freshclam \
        /tmp/usr/lib64/* \
-#       /usr/lib64/libpcre.so.1 \
        /opt/app/bin/
 
 # Fix the freshclam.conf settings
