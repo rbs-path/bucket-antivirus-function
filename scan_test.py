@@ -311,7 +311,7 @@ class TestScan(unittest.TestCase):
                 AV_STATUS_METADATA: scan_result,
                 AV_TIMESTAMP_METADATA: timestamp,
             },
-            'MessageGroupId': 'test_key',
+            "MessageGroupId": "test_key",
             "MetadataDirective": "REPLACE",
         }
         s3_stubber_resource.add_response(
@@ -384,7 +384,7 @@ class TestScan(unittest.TestCase):
                 "av-status": {"DataType": "String", "StringValue": scan_result},
                 "av-signature": {"DataType": "String", "StringValue": scan_signature},
             },
-            'MessageGroupId': 'test_key',
+            "MessageGroupId": "test_key",
             "MessageStructure": "json",
         }
         sns_stubber.add_response("publish", publish_response, publish_expected_params)
