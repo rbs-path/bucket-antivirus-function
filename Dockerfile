@@ -38,7 +38,6 @@ RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
     rpm2cpio libxml2*.rpm | cpio -vimd && \
     rpm2cpio bzip2-libs*.rpm | cpio -vimd && \
     rpm2cpio xz-libs*.rpm | cpio -vimd && \
-    rpm2cpio libprelude*.rpm | cpio -vimd && \
     rpm2cpio gnutls*.rpm | cpio -vimd && \
     rpm2cpio nettle*.rpm | cpio -vimd && \
     rpm2cpio libcurl*.rpm | cpio -vimd && \
