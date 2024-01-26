@@ -245,6 +245,7 @@ class TestScan(unittest.TestCase):
         publish_expected_params = {
             "TargetArn": sns_arn,
             "Message": json.dumps({"default": json.dumps(message)}),
+            "MessageGroupId": "test_key",
             "MessageStructure": "json",
         }
         sns_stubber.add_response("publish", publish_response, publish_expected_params)
@@ -311,7 +312,6 @@ class TestScan(unittest.TestCase):
                 AV_STATUS_METADATA: scan_result,
                 AV_TIMESTAMP_METADATA: timestamp,
             },
-            "MessageGroupId": "test_key",
             "MetadataDirective": "REPLACE",
         }
         s3_stubber_resource.add_response(
