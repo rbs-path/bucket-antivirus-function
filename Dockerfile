@@ -26,8 +26,8 @@ RUN yumdownloader -x \*i686 --archlist=x86_64,aarch64 \
         libnghttp2 libidn2 libssh2 openldap \
         libunistring cyrus-sasl-lib nss pcre openssl-libs
 
-RUN curl https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/aarch64/os/Packages/l/libprelude-5.2.0-21.fc39.aarch64.rpm \
-    --output libprelude-5.2.0-21.fc39.aarch64.rpm
+RUN curl https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/x86_64/os/Packages/l/libprelude-5.2.0-23.fc40.x86_64.rpm \
+    --output libprelude.rpm
 
 RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
     rpm2cpio clamav-lib*.rpm | cpio -vimd && \
@@ -38,7 +38,7 @@ RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
     rpm2cpio libxml2*.rpm | cpio -vimd && \
     rpm2cpio bzip2-libs*.rpm | cpio -vimd && \
     rpm2cpio xz-libs*.rpm | cpio -vimd && \
-    rpm2cpio libprelude*.rpm | cpio -vimd && \
+    rpm2cpio libprelude.rpm | cpio -vimd && \
     rpm2cpio gnutls*.rpm | cpio -vimd && \
     rpm2cpio nettle*.rpm | cpio -vimd && \
     rpm2cpio libcurl*.rpm | cpio -vimd && \
