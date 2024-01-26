@@ -24,7 +24,7 @@ RUN yumdownloader -x \*i686 --archlist=x86_64,aarch64 \
         pcre2 libtool-ltdl libxml2 bzip2-libs \
         xz-libs gnutls nettle libcurl \
         libnghttp2 libidn2 libssh2 openldap \
-        libunistring cyrus-sasl-lib nss pcre
+        libunistring cyrus-sasl-lib nss pcre openssl-libs
 
 RUN curl https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/aarch64/os/Packages/l/libprelude-5.2.0-21.fc39.aarch64.rpm \
     --output /tmp/libprelude-5.2.0-21.fc39.aarch64.rpm
@@ -48,7 +48,8 @@ RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
     rpm2cpio libunistring*.rpm | cpio -vimd && \
     rpm2cpio cyrus-sasl-lib-2*.rpm | cpio -vimd && \
     rpm2cpio nss*.rpm | cpio -vimd && \
-    rpm2cpio pcre*.rpm | cpio -vimd
+    rpm2cpio pcre*.rpm | cpio -vimd \
+    rpm2cpio openssl-libs*.rpm | cpio -vimd
 
 # Copy over the binaries and libraries
 RUN cp -rf /tmp/usr/bin/clamscan \
