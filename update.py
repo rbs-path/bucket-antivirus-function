@@ -24,7 +24,6 @@ from common import AV_DEFINITION_S3_PREFIX
 from common import CLAMAVLIB_PATH
 from common import S3_ENDPOINT
 from common import get_timestamp
-import subprocess
 
 
 def lambda_handler(event, context):
