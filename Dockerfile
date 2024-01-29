@@ -57,7 +57,6 @@ RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
     rpm2cpio libbrotli*.rpm | cpio -vimd && \
     rpm2cpio libxcrypt-compat*.rpm | cpio -vimd && \
     rpm2cpio libxcrypt*.rpm | cpio -vimd && \
-    rpm2cpio glibc*.rpm | cpio -vimd && \
     rpm2cpio openssl-libs*.rpm | cpio -vimd
 
 # Copy over the binaries and libraries
