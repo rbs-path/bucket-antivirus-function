@@ -24,7 +24,9 @@ RUN yumdownloader -x \*i686 --archlist=x86_64,aarch64 \
         pcre2 libtool-ltdl libxml2 bzip2-libs \
         xz-libs gnutls nettle libcurl \
         libnghttp2 libidn2 libssh2 openldap \
-        libunistring cyrus-sasl-lib nss pcre pcre2 openssl-libs
+        libunistring cyrus-sasl-lib nss pcre \
+        pcre2 openssl-libs libssh libpsl libbrotli \
+        libxcrypt-compat libxcrypt glibc
 
 RUN curl https://rpmfind.net/linux/fedora/linux/development/rawhide/Everything/aarch64/os/Packages/l/libprelude-5.2.0-23.fc40.aarch64.rpm \
     --output libprelude.rpm
@@ -33,7 +35,6 @@ RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
     rpm2cpio clamav-lib*.rpm | cpio -vimd && \
     rpm2cpio clamav-update*.rpm | cpio -vimd && \
     rpm2cpio json-c*.rpm | cpio -vimd && \
-    rpm2cpio pcre*.rpm | cpio -vimd && \
     rpm2cpio libtool-ltdl*.rpm | cpio -vimd && \
     rpm2cpio libxml2*.rpm | cpio -vimd && \
     rpm2cpio bzip2-libs*.rpm | cpio -vimd && \
@@ -44,6 +45,7 @@ RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
     rpm2cpio libcurl*.rpm | cpio -vimd && \
     rpm2cpio libnghttp2*.rpm | cpio -vimd && \
     rpm2cpio libidn2*.rpm | cpio -vimd && \
+    rpm2cpio libssh-*.rpm | cpio -vimd && \
     rpm2cpio libssh2*.rpm | cpio -vimd && \
     rpm2cpio openldap*.rpm | cpio -vimd && \
     rpm2cpio libunistring*.rpm | cpio -vimd && \
@@ -51,6 +53,11 @@ RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
     rpm2cpio nss*.rpm | cpio -vimd && \
     rpm2cpio pcre-*.rpm | cpio -vimd && \
     rpm2cpio pcre2*.rpm | cpio -vimd && \
+    rpm2cpio libpsl*.rpm | cpio -vimd && \
+    rpm2cpio libbrotli*.rpm | cpio -vimd && \
+    rpm2cpio libxcrypt-compat*.rpm | cpio -vimd && \
+    rpm2cpio libxcrypt*.rpm | cpio -vimd && \
+    rpm2cpio glibc*.rpm | cpio -vimd && \
     rpm2cpio openssl-libs*.rpm | cpio -vimd
 
 # Copy over the binaries and libraries
