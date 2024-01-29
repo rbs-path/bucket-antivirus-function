@@ -47,10 +47,6 @@ def current_library_search_path():
         "/lib64",
         "/usr/local/lib64",
         "/usr/lib64",
-        "/usr/x86_64-amazon-linux/lib",
-        "/usr/x86_64-amazon-linux/lib64",
-        "/usr/x86_64-redhat-linux/lib",
-        "/usr/x86_64-redhat-linux/lib64",
     ]
     existing_library_paths = []
 
