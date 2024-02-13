@@ -161,6 +161,7 @@ def sns_start_scan(sns_client, s3_object, scan_start_sns_arn, timestamp):
     }
     sns_client.publish(
         TargetArn=scan_start_sns_arn,
+        MessageGroupId=s3_object.key,
         Message=json.dumps({"default": json.dumps(message)}),
         MessageStructure="json",
     )
@@ -186,6 +187,7 @@ def sns_scan_results(
     }
     sns_client.publish(
         TargetArn=sns_arn,
+        MessageGroupId=s3_object.key,
         Message=json.dumps({"default": json.dumps(message)}),
         MessageStructure="json",
         MessageAttributes={
