@@ -18,7 +18,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.9'
 
       - name: Cache pre-commit sources
         uses: actions/cache@v4
@@ -47,4 +47,4 @@ jobs:
         run: |
           docker build -t bucket-antivirus-function:latest .
           mkdir -p ./build/
-          docker run -v ./build:/opt/mount --rm --entrypoint cp bucket-antivirus-function:latest /opt/app/build/anti-virus.zip /opt/mount/anti-virus.zip
+          docker run -v $(current_dir)/build:/opt/mount --rm --entrypoint cp bucket-antivirus-function:latest /opt/app/build/anti-virus.zip /opt/mount/anti-virus.zip
