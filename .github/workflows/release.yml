@@ -10,9 +10,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Make
-        run: |
-          make all
+      - uses: uraimo/run-on-arch-action@v2.7.1
+        name: Make
+        id: runcmd
+        with:
+          arch: aarch64
+          distro: ubuntu_latest
+          githubToken: ${{ github.token }}
+          run: |
+            make all
       - uses: ncipollo/release-action@v1
         with:
           artifacts: build/anti-virus.zip
