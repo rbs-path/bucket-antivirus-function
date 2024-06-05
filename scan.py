@@ -237,8 +237,12 @@ def lambda_handler(event, context):
 
     file_path = get_local_path(s3_object, "/tmp")
     create_dir(os.path.dirname(file_path))
-    s3_object.download_file(file_path)
-
+    try:
+        s3_object.download_file(file_path)
+    except:
+        # Download failed, probably because the file is not found. Most likely it was created by Synthetic test
+        print("Failed to download s3://%s" % (s3_object.key))
+        return
     to_download = clamav.update_defs_from_s3(
         s3_client, AV_DEFINITION_S3_BUCKET, AV_DEFINITION_S3_PREFIX
     )
@@ -257,10 +261,14 @@ def lambda_handler(event, context):
 
     result_time = get_timestamp()
     # Set the properties on the object with the scan results
-    if "AV_UPDATE_METADATA" in os.environ:
-        set_av_metadata(s3_object, scan_result, scan_signature, result_time)
-    set_av_tags(s3_client, s3_object, scan_result, scan_signature, result_time)
-
+    try:
+        if "AV_UPDATE_METADATA" in os.environ:
+            set_av_metadata(s3_object, scan_result, scan_signature, result_time)
+        set_av_tags(s3_client, s3_object, scan_result, scan_signature, result_time)
+    except:
+        # Updates failed, probably because the file is not found. Most likely it was created by Synthetic test
+        print("Failed to update metadata for s3://%s" % (s3_object.key))
+        return
     # Publish the scan results
     if AV_STATUS_SNS_ARN not in [None, ""]:
         sns_scan_results(
