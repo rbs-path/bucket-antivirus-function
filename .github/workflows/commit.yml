@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: macos-14 # to get arm64 code
+    runs-on: linux-arm64
     steps:
       - name: Checkout
         uses: actions/checkout@v4
