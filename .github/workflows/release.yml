@@ -6,15 +6,13 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: macos-14 # to get arm64 code
+    runs-on: ubuntu-22-arm64-2-core
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # Running make on Ubuntu-latest isn't building proper arm64 code. Docker isn't running on macos-14
-      # For now the only way to build this locally on a mac, and add the package to the repo
-      # - name: Make
-      #   run: |
-      #     make all
+      - name: Make
+        run: |
+          make all
       - uses: ncipollo/release-action@v1
         with:
           artifacts: build/anti-virus.zip
