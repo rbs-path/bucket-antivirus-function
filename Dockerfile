@@ -31,7 +31,7 @@ RUN yumdownloader -x \*i686 --archlist=x86_64,aarch64 \
 RUN curl https://rpmfind.net/linux/fedora/linux/releases/40/Everything/aarch64/os/Packages/l/libprelude-5.2.0-23.fc40.aarch64.rpm \
     --output libprelude-5.2.0-23.fc40.aarch64.rpm
 
-RUN ls -al && rpm2cpio clamav-0*.rpm | cpio -vimd && \
+RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
     rpm2cpio clamav-lib*.rpm | cpio -vimd && \
     rpm2cpio clamav-update*.rpm | cpio -vimd && \
     rpm2cpio json-c*.rpm | cpio -vimd && \
