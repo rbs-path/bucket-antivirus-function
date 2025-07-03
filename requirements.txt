@@ -1,9 +1,9 @@
-certifi>=2023.11.17
+certifi>=2024.7.4
 chardet>=3.0.4
 datadog>=0.48.0
 decorator>=4.3
 idna>=2.8
-requests>=2.21
+requests>=2.32.4
 simplejson>=3.16
 urllib3<2
 pytz>=2019.3
