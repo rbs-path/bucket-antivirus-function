@@ -19,45 +19,50 @@ RUN dnf update -y && \
 # Download libraries we need to run in lambda
 WORKDIR /tmp
 
-RUN yumdownloader -x \*i686 --archlist=x86_64,aarch64 \
-        clamav clamav-lib clamav-update json-c \
-        pcre2 libtool-ltdl libxml2 bzip2-libs \
-        xz-libs gnutls nettle libcurl \
-        libnghttp2 libidn2 libssh2 openldap \
-        libunistring cyrus-sasl-lib nss pcre \
-        pcre2 openssl-libs libssh libpsl libbrotli \
-        libxcrypt-compat libxcrypt glibc
+RUN yumdownloader -x \*i686 --archlist=x86_64,aarch64,noarch \
+        clamav1.4 clamav1.4-lib clamav1.4-freshclam clamav1.4-filesystem clamav1.4-data
 
-RUN curl https://rpmfind.net/linux/fedora/linux/releases/40/Everything/aarch64/os/Packages/l/libprelude-5.2.0-23.fc40.aarch64.rpm \
-    --output libprelude-5.2.0-23.fc40.aarch64.rpm
+        #  json-c \
+        # pcre2 libtool-ltdl libxml2 bzip2-libs \
+        # xz-libs gnutls nettle libcurl \
+        # libnghttp2 libidn2 libssh2 openldap \
+        # libunistring cyrus-sasl-lib nss pcre \
+        # pcre2 openssl-libs libssh libpsl libbrotli \
+        # libxcrypt-compat libxcrypt glibc
 
-RUN rpm2cpio clamav-0*.rpm | cpio -vimd && \
-    rpm2cpio clamav-lib*.rpm | cpio -vimd && \
-    rpm2cpio clamav-update*.rpm | cpio -vimd && \
-    rpm2cpio json-c*.rpm | cpio -vimd && \
-    rpm2cpio libtool-ltdl*.rpm | cpio -vimd && \
-    rpm2cpio libxml2*.rpm | cpio -vimd && \
-    rpm2cpio bzip2-libs*.rpm | cpio -vimd && \
-    rpm2cpio xz-libs*.rpm | cpio -vimd && \
-    rpm2cpio libprelude*.rpm | cpio -vimd && \
-    rpm2cpio gnutls*.rpm | cpio -vimd && \
-    rpm2cpio nettle*.rpm | cpio -vimd && \
-    rpm2cpio libcurl*.rpm | cpio -vimd && \
-    rpm2cpio libnghttp2*.rpm | cpio -vimd && \
-    rpm2cpio libidn2*.rpm | cpio -vimd && \
-    rpm2cpio libssh-*.rpm | cpio -vimd && \
-    rpm2cpio libssh2*.rpm | cpio -vimd && \
-    rpm2cpio openldap*.rpm | cpio -vimd && \
-    rpm2cpio libunistring*.rpm | cpio -vimd && \
-    rpm2cpio cyrus-sasl-lib-2*.rpm | cpio -vimd && \
-    rpm2cpio nss*.rpm | cpio -vimd && \
-    rpm2cpio pcre-*.rpm | cpio -vimd && \
-    rpm2cpio pcre2*.rpm | cpio -vimd && \
-    rpm2cpio libpsl*.rpm | cpio -vimd && \
-    rpm2cpio libbrotli*.rpm | cpio -vimd && \
-    rpm2cpio libxcrypt-compat*.rpm | cpio -vimd && \
-    rpm2cpio libxcrypt*.rpm | cpio -vimd && \
-    rpm2cpio openssl-libs*.rpm | cpio -vimd
+# RUN curl https://rpmfind.net/linux/fedora/linux/releases/40/Everything/aarch64/os/Packages/l/libprelude-5.2.0-23.fc40.aarch64.rpm \
+#     --output libprelude-5.2.0-23.fc40.aarch64.rpm
+
+RUN rpm2cpio clamav1.4-1*.rpm | cpio -vimd && \
+    rpm2cpio clamav1.4-lib*.rpm | cpio -vimd && \
+    rpm2cpio clamav1.4-freshclam*.rpm | cpio -vimd && \
+    rpm2cpio clamav1.4-data*.rpm | cpio -vimd && \
+    rpm2cpio clamav1.4-filesystem*.rpm | cpio -vimd
+
+    # rpm2cpio json-c*.rpm | cpio -vimd && \
+    # rpm2cpio libtool-ltdl*.rpm | cpio -vimd && \
+    # rpm2cpio libxml2*.rpm | cpio -vimd && \
+    # rpm2cpio bzip2-libs*.rpm | cpio -vimd && \
+    # rpm2cpio xz-libs*.rpm | cpio -vimd && \
+    # rpm2cpio libprelude*.rpm | cpio -vimd && \
+    # rpm2cpio gnutls*.rpm | cpio -vimd && \
+    # rpm2cpio nettle*.rpm | cpio -vimd && \
+    # rpm2cpio libcurl*.rpm | cpio -vimd && \
+    # rpm2cpio libnghttp2*.rpm | cpio -vimd && \
+    # rpm2cpio libidn2*.rpm | cpio -vimd && \
+    # rpm2cpio libssh-*.rpm | cpio -vimd && \
+    # rpm2cpio libssh2*.rpm | cpio -vimd && \
+    # rpm2cpio openldap*.rpm | cpio -vimd && \
+    # rpm2cpio libunistring*.rpm | cpio -vimd && \
+    # rpm2cpio cyrus-sasl-lib-2*.rpm | cpio -vimd && \
+    # rpm2cpio nss*.rpm | cpio -vimd && \
+    # rpm2cpio pcre-*.rpm | cpio -vimd && \
+    # rpm2cpio pcre2*.rpm | cpio -vimd && \
+    # rpm2cpio libpsl*.rpm | cpio -vimd && \
+    # rpm2cpio libbrotli*.rpm | cpio -vimd && \
+    # rpm2cpio libxcrypt-compat*.rpm | cpio -vimd && \
+    # rpm2cpio libxcrypt*.rpm | cpio -vimd && \
+    # rpm2cpio openssl-libs*.rpm | cpio -vimd
 
 # Copy over the binaries and libraries
 RUN cp -rf /tmp/usr/bin/clamscan \
