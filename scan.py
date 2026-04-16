@@ -220,7 +220,7 @@ def lambda_handler(event, context):
     sns_client = boto3.client("sns", endpoint_url=SNS_ENDPOINT)
 
     # Get some environment variables
-    ENV = os.getenv("ENV", "")
+    ENV = os.getenv("DD_ENV", "")
     EVENT_SOURCE = os.getenv("EVENT_SOURCE", "S3")
 
     start_time = get_timestamp()

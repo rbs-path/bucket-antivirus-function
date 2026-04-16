@@ -1,2 +1,3 @@
 datadog>=0.51.1
 pytz>=2026
+chardet>=4.0.0
