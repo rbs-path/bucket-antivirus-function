@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import json
 import os
 
 import datadog
@@ -51,4 +52,5 @@ def send(env, bucket, key, status):
             "tags": metric_tags,
         }
         print("Sending metrics to Datadog.")
-        datadog.api.Metric.send([scanned_metric, result_metric])
+        # print(json.dumps([scanned_metric, result_metric]))
+        response = datadog.api.Metric.send([scanned_metric, result_metric])
