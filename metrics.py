@@ -22,8 +22,8 @@ from common import AV_STATUS_INFECTED
 
 
 def send(env, bucket, key, status):
-    if "DATADOG_API_KEY" in os.environ:
-        datadog.initialize()  # by default uses DATADOG_API_KEY
+    if "DD_API_KEY" in os.environ and "DD_APP_KEY" in os.environ:
+        datadog.initialize(api_key=os.environ["DD_API_KEY"], app_key=os.environ["DD_APP_KEY"], api_host="https://api.datadoghq.eu")
 
         result_metric_name = "unknown"
 
