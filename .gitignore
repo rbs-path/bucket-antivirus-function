@@ -116,3 +116,4 @@ tmp/
 
 # EICAR Files
 *eicar*
+build/anti-virus.zip

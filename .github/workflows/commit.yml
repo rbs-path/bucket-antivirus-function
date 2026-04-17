@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-22-arm64-2-core
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Make
         run: |
           make all
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: anti-virus
           path: build/anti-virus.zip

@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import json
 import os
 
 import datadog
@@ -21,8 +22,8 @@ from common import AV_STATUS_INFECTED
 
 
 def send(env, bucket, key, status):
-    if "DATADOG_API_KEY" in os.environ:
-        datadog.initialize()  # by default uses DATADOG_API_KEY
+    if "DD_API_KEY" in os.environ and "DD_APP_KEY" in os.environ:
+        datadog.initialize(api_key=os.environ["DD_API_KEY"], app_key=os.environ["DD_APP_KEY"], api_host="https://api.datadoghq.eu")
 
         result_metric_name = "unknown"
 
@@ -51,4 +52,5 @@ def send(env, bucket, key, status):
             "tags": metric_tags,
         }
         print("Sending metrics to Datadog.")
-        datadog.api.Metric.send([scanned_metric, result_metric])
+        # print(json.dumps([scanned_metric, result_metric]))
+        response = datadog.api.Metric.send([scanned_metric, result_metric])
