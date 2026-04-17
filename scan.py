@@ -267,7 +267,6 @@ def lambda_handler(event, context):
             set_av_metadata(s3_object, scan_result, scan_signature, result_time)
         set_av_tags(s3_client, s3_object, scan_result, scan_signature, result_time)
     except botocore.exceptions.ClientError as e:
-    except botocore.exceptions.ClientError as e:
         # Updates failed, probably because the file is not found. Most likely it was created by Synthetic test and already deleted
         if e.response['Error']['Code'] != "MethodNotAllowed":
             # Maybe it's something else
