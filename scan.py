@@ -18,6 +18,7 @@ import json
 import os
 from urllib.parse import unquote_plus
 
+import botocore
 import boto3
 
 import clamav
@@ -122,11 +123,11 @@ def delete_s3_object(s3_object):
         s3_object.delete()
     except Exception:
         raise Exception(
-            "Failed to delete infected file: %s.%s"
+            "Failed to delete infected file: %s/%s"
             % (s3_object.bucket_name, s3_object.key)
         )
     else:
-        print("Infected file deleted: %s.%s" % (s3_object.bucket_name, s3_object.key))
+        print("Infected file deleted: %s/%s" % (s3_object.bucket_name, s3_object.key))
 
 
 def set_av_metadata(s3_object, scan_result, scan_signature, timestamp):
@@ -265,9 +266,12 @@ def lambda_handler(event, context):
         if "AV_UPDATE_METADATA" in os.environ:
             set_av_metadata(s3_object, scan_result, scan_signature, result_time)
         set_av_tags(s3_client, s3_object, scan_result, scan_signature, result_time)
-    except:
-        # Updates failed, probably because the file is not found. Most likely it was created by Synthetic test
-        print("Failed to update metadata for s3://%s" % (s3_object.key))
+    except botocore.exceptions.ClientError as e:
+        # Updates failed, probably because the file is not found. Most likely it was created by Synthetic test and already deleted
+        if e.response['Error']['Code'] != "MethodNotAllowed":
+            # Maybe it's something else
+            print("Failed to update metadata for s3://%s" % os.path.join(s3_object.bucket_name, s3_object.key))
+            print(e.response['Error']['Message'])
         return
     # Publish the scan results
     if AV_STATUS_SNS_ARN not in [None, ""]:
