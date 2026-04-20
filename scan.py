@@ -123,11 +123,11 @@ def delete_s3_object(s3_object):
         s3_object.delete()
     except Exception:
         raise Exception(
-            "Failed to delete infected file: %s.%s"
+            "Failed to delete infected file: %s/%s"
             % (s3_object.bucket_name, s3_object.key)
         )
     else:
-        print("Infected file deleted: %s.%s" % (s3_object.bucket_name, s3_object.key))
+        print("Infected file deleted: %s/%s" % (s3_object.bucket_name, s3_object.key))
 
 
 def set_av_metadata(s3_object, scan_result, scan_signature, timestamp):
